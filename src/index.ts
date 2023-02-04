@@ -1,3 +1,4 @@
 import { NotionService } from './libs/Notion';
+import {Memoria} from './libs/Sqlite'
 
-export { NotionService };
+export { NotionService, Memoria };

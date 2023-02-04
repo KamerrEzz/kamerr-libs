@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":";;;AAAA,0CAA8C;AAGrC,8FAHA,sBAAa,OAGA;AAFtB,0CAAqC;AAEb,wFAFhB,gBAAO,OAEgB","sourcesContent":["import { NotionService } from './libs/Notion';\r\nimport {Memoria} from './libs/Sqlite'\r\n\r\nexport { NotionService, Memoria };"]}

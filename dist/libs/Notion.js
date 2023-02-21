@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotionService = void 0;
 // @ts-nocheck
 const client_1 = require("@notionhq/client");
-const fs_1 = require("fs");
+const fs = require("fs");
 class NotionService {
     constructor({ token, databaseId, storage }) {
         this.getUsers = async () => {
@@ -107,13 +107,13 @@ class NotionService {
             return new Promise((resolve, reject) => {
                 const folder = 'tmp';
                 const file = `${folder}/notion-${this.storage}.json`;
-                if (!fs_1.default.existsSync(folder)) {
-                    fs_1.default.mkdirSync(folder);
+                if (!fs.existsSync(folder)) {
+                    fs.mkdirSync(folder);
                 }
-                if (!fs_1.default.existsSync(file)) {
-                    fs_1.default.writeFileSync(file, JSON.stringify([]));
+                if (!fs.existsSync(file)) {
+                    fs.writeFileSync(file, JSON.stringify([]));
                 }
-                const data = fs_1.default.readFileSync(file);
+                const data = fs.readFileSync(file);
                 const json = JSON.parse(data);
                 resolve(json);
             });
@@ -154,10 +154,10 @@ class NotionService {
         this.dbSave = (data) => {
             const folder = 'tmp';
             const file = `${folder}/notion-${this.storage}.json`;
-            if (!fs_1.default.existsSync(folder)) {
-                fs_1.default.mkdirSync(folder);
+            if (!fs.existsSync(folder)) {
+                fs.mkdirSync(folder);
             }
-            fs_1.default.writeFileSync(file, JSON.stringify(data, null, 2));
+            fs.writeFileSync(file, JSON.stringify(data, null, 2));
         };
         this.dbinsert = async (data) => {
             const db = await this.dbGet();
@@ -241,11 +241,11 @@ class NotionService {
         this._exists = () => {
             const folder = 'tmp';
             const file = `${folder}/notion-${this.storage}.json`;
-            if (!fs_1.default.existsSync(folder)) {
+            if (!fs.existsSync(folder)) {
                 console.log('Folder not exists');
                 return false;
             }
-            if (!fs_1.default.existsSync(file)) {
+            if (!fs.existsSync(file)) {
                 console.log('File not exists');
                 return false;
             }

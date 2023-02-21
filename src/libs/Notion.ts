@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Client } from '@notionhq/client';
 import { User, PropertyFilter, insertRow } from '../types/NotionCustom';
-import fs from 'fs';
+import * as fs from 'fs';
 
 class NotionService {
 	Notion: Client;

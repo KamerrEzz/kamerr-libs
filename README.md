@@ -12,55 +12,41 @@
 ## Example
 
 ```js
-import * as sqlite3 from 'sqlite3';
+import * as sqlite from 'sqlite3';
 import { Memoria } from '@kamerrezz/libs';
 
-const db = new sqlite3.Database('database.sqlite');
+const db = new sqlite.Database('db.sqlite');
 
-const userModel = {
-	id: 'INTEGER PRIMARY KEY',
+const User = {
+	id: 'INTEGER PRIMARY KEY AUTOINCREMENT',
 	name: 'TEXT',
+	image: 'TEXT',
 	email: 'TEXT',
-	age: 'INTEGER',
+	profile: 'INTEGER',
+	rank: 'TEXT',
+	points: 'INTEGER',
 };
 
-const userMemoria = new Memoria() < typeof userModel > ('users', userModel, db);
+const UserSQL = new Memoria('users', User, db);
 
-async function main() {
-	// Insertar un nuevo usuario
-	await userMemoria.insert({
-		name: 'John Doe',
-		email: 'john.doe@example.com',
-		age: 30,
-	});
-
-	// Actualizar el correo electrónico del usuario
-	await userMemoria.update(
-		{ name: 'John Doe' },
-		{ email: 'new.email@example.com' }
-	);
-
-	// Obtener un usuario por su nombre
-	const user = await userMemoria.find({ name: 'John Doe' });
-	console.log(user); // { id: 1, name: 'John Doe', email: 'new.email@example.com', age: 30 }
-
-	// Obtener todos los usuarios
-	const users = await userMemoria.findAll({});
-	console.log(users); // [ { id: 1, name: 'John Doe', email: 'new.email@example.com', age: 30 } ]
-
-	// Eliminar un usuario por su nombre
-	await userMemoria.delete({ name: 'John Doe' });
-
-	// Eliminar todos los usuarios
-	await userMemoria.deleteAll();
-
-	// Eliminar la tabla de usuarios
-	await userMemoria.drop();
-
-	db.close();
+for (let i = 10; i < 20; i++) {
+    UserSQL.insert({
+        name: 'Kamerrezz ' + i,
+        image: 'https://cdn.discordapp.com/avatars/702000000000000000',
+        email: 'asdasd@asdas.com',
+        profile: 1 as any,
+        rank: 'user',
+    }).then(console.log).catch(console.error);
 }
 
-main();
+let id = 1 as any;
+UserSQL.find({ id }).then(console.log).catch(console.error);
+UserSQL.findAll({ rank: 'user'}).then(console.log).catch(console.error);
+UserSQL.update({ id }, { name: 'BulzyKrown' }).then(console.log).catch(console.error);
+UserSQL.upsert({ id }, { name: 'BulzyKrown 5' }).then(console.log).catch(console.error);
+UserSQL.delete({ id }).then(console.log).catch(console.error);
+UserSQL.deleteAll().then(console.log).catch(console.error);
+UserSQL.drop().then(console.log).catch(console.error);
 ```
 
 ## Sqlite Extends Class

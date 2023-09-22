@@ -14,13 +14,15 @@ declare class Memoria<T extends Model> {
     db: sqlite3.Database;
     constructor(table: string, model: T, database: sqlite3.Database);
     find(query: Partial<T>): Promise<Partial<T> | undefined>;
-    findAll(query: Partial<T>): Promise<Partial<T>[]>;
+    findAll(query?: Partial<T>): Promise<Partial<T>[]>;
     insert(data: Partial<T>): Promise<void>;
     update(query: Partial<T>, data: Partial<T>): Promise<void>;
     upsert(query: Partial<T>, data: Partial<T>): Promise<void>;
     delete(query: Partial<T>): Promise<void>;
     deleteAll(): Promise<void>;
     drop(): Promise<void>;
+    parseData(data: any, type: 'keys' | 'values' | 'update'): any;
+    parseQuery(query: any): string;
 }
 export { Memoria };
 //# sourceMappingURL=Sqlite.d.ts.map

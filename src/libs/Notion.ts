@@ -1,14 +1,13 @@
 // @ts-nocheck
-import { Client } from '@notionhq/client';
 import { User, PropertyFilter, insertRow } from '../types/NotionCustom';
 import * as fs from 'fs';
 
 class NotionService {
-	Notion: Client;
+	Notion: any;
 	db: any;
 	storage: string;
 
-	constructor({ token, databaseId, storage }) {
+	constructor({ Client, token, databaseId, storage }) {
 		this.Notion = new Client({
 			auth: token,
 		});

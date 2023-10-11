@@ -1,11 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotionService = void 0;
-// @ts-nocheck
-const client_1 = require("@notionhq/client");
 const fs = require("fs");
 class NotionService {
-    constructor({ token, databaseId, storage }) {
+    constructor({ Client, token, databaseId, storage }) {
         this.getUsers = async () => {
             const users = await this.Notion.users.list({});
             const typePerson = users.results.find((user) => user.type == 'person');
@@ -251,7 +249,7 @@ class NotionService {
             }
             return true;
         };
-        this.Notion = new client_1.Client({
+        this.Notion = new Client({
             auth: token,
         });
         this.db = databaseId;

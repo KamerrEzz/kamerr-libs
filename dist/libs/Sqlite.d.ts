@@ -13,8 +13,12 @@ declare class Memoria<T extends Model> {
     model: T;
     db: sqlite3.Database;
     constructor(table: string, model: T, database: sqlite3.Database);
-    find(query: Partial<T>): Promise<Partial<T> | undefined>;
-    findAll(query?: Partial<T>): Promise<Partial<T>[]>;
+    find(query: Partial<T>, options?: {
+        limit: number;
+    }): Promise<Partial<T> | undefined>;
+    findAll(query?: Partial<T>, options?: {
+        limit: number;
+    }): Promise<Partial<T>[]>;
     insert(data: Partial<T>): Promise<void>;
     update(query: Partial<T>, data: Partial<T>): Promise<void>;
     upsert(query: Partial<T>, data: Partial<T>): Promise<void>;

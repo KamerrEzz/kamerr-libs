@@ -22,9 +22,12 @@ class Memoria {
             }
         });
     }
-    find(query) {
+    find(query, options) {
         return new Promise((resolve, reject) => {
-            this.db.get(`SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`, (err, row) => {
+            let sql = `SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`;
+            if (options && options.limit)
+                sql += ` LIMIT ${options.limit}`;
+            this.db.get(sql, (err, row) => {
                 if (err)
                     reject(err);
                 else
@@ -32,10 +35,13 @@ class Memoria {
             });
         });
     }
-    findAll(query) {
+    findAll(query, options) {
         return new Promise((resolve, reject) => {
             if (query) {
-                this.db.all(`SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`, (err, rows) => {
+                let sql = `SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`;
+                if (options && options.limit)
+                    sql += ` LIMIT ${options.limit}`;
+                this.db.all(sql, (err, rows) => {
                     if (err)
                         reject(err);
                     else
@@ -43,7 +49,10 @@ class Memoria {
                 });
             }
             else {
-                this.db.all(`SELECT * FROM ${this.table}`, (err, rows) => {
+                let sql = `SELECT * FROM ${this.table}`;
+                if (options && options.limit)
+                    sql += ` LIMIT ${options.limit}`;
+                this.db.all(sql, (err, rows) => {
                     if (err)
                         reject(err);
                     else

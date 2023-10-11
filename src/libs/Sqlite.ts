@@ -10,7 +10,7 @@ interface Model {
 	[key: string]: string;
 }
 
-class Memoria<T extends Model> {
+class SQLITE<T extends Model> {
 	table: string;
 	model: T;
 	db: sqlite3.Database;
@@ -41,10 +41,11 @@ class Memoria<T extends Model> {
 		});
 	}
 
-	find(query: Partial<T>): Promise<Partial<T> | undefined> {
+	find(query: Partial<T>, options?: {limit: number}): Promise<Partial<T> | undefined> {
 		return new Promise((resolve, reject) => {
-			this.db.get(
-				`SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`,
+			let sql = `SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`
+			if(options && options.limit) sql += ` LIMIT ${options.limit}`
+			this.db.get(sql,
 				(err: Error | undefined, row: object | undefined) => {
 					if (err) reject(err);
 					else resolve(row);
@@ -53,19 +54,22 @@ class Memoria<T extends Model> {
 		});
 	}
 
-	findAll(query?: Partial<T>): Promise<Partial<T>[]> {
+	findAll(query?: Partial<T>, options?: {limit: number}): Promise<Partial<T>[]> {
 		return new Promise((resolve, reject) => {
 			if (query) {
+				let sql = `SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`
+				if(options && options.limit) sql += ` LIMIT ${options.limit}`
 				this.db.all(
-					`SELECT * FROM ${this.table} WHERE ${this.parseQuery(query)}`,
+					sql,
 					(err: Error | undefined, rows: object[] | undefined) => {
 						if (err) reject(err);
 						else resolve(rows as any);
 					}
 				);
 			} else {
-				this.db.all(
-					`SELECT * FROM ${this.table}`,
+				let sql = `SELECT * FROM ${this.table}`
+				if(options && options.limit) sql += ` LIMIT ${options.limit}`
+				this.db.all(sql,
 					(err: Error | undefined, rows: object[] | undefined) => {
 						if (err) reject(err);
 						else resolve(rows as any);
@@ -167,4 +171,4 @@ class Memoria<T extends Model> {
 	}
 }
 
-export { Memoria };
+export { SQLITE };
